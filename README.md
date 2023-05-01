@@ -51,7 +51,7 @@ Additionally, the output value was adjusted with the activation function ```f''`
 --------------------------------------------
 
 ## Dataset   
-+ All images were preprocessed with 224 by 224 resolution.    
++ All images were resized with 224 by 224.    
 
 |Dataset|Train set|Valid set|Test set|
 |:---:|:---:|:---:|:---:|
