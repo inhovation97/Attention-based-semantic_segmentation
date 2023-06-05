@@ -56,7 +56,7 @@ Additionally, the output value was adjusted with the activation function ```f''`
 |Dataset|Train set|Valid set|Test set|
 |:---:|:---:|:---:|:---:|
 |[K-Vasir](https://paperswithcode.com/dataset/kvasir)|600|200|200|
-|[Ottawa](https://ieeexplore.ieee.org/document/8506600)|2000|150|150|      
+|[ISIC](https://challenge.isic-archive.com/data/)|2000|150|150|      
   
 ## Evaluation   
 
