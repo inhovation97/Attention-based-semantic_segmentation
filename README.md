@@ -1,9 +1,10 @@
-# Attention with semantic segmentation
+# Attention-based Fine-tuning for Reducing Misclassification in Semantic Segmentation(2023)
 
 
-[Publication]    
-Inho Jeong, Minyoung Hwang, Chaejun Seo, Seunghyeok Hong. (2023).   
-Attention-based Fine-tuning for Reducing Misclassification in Semantic Image Segmentation 한국정보과학회 학술발표논문집,   
+[Publication](링크)    
+Inho Jeong<sup>o</sup>, $Minyoung Hwang, $Chaejun Seo, Seunghyeok Hong<sup>*</sup>. (2023).   
+Attention-based Fine-tuning for Reducing Misclassification in Semantic Image Segmentation 한국정보과학회 학술발표논문집, pp aa~aa    
+
 
 ------------------------------------------------------------
 
@@ -14,9 +15,12 @@ Semantic segmentation is a field of deep learning research that classifies backg
 ## **Problems of misclassification in semantic segmentation**   
 When used to distinguish lesions and backgrounds in medical images and divide road and non-road areas in satellite images, input image ```X``` is an R<sup>H×W×C</sup> three-dimensional dataset with ```H × W``` number of pixels and expressed as ```C``` according to scale. When input image ```X``` is input to deep learning algorithm ```F```, **P(F(X)) = [0,1] ∈ R<sup>H×W</sup>** is finally obtained and binary classification is performed through the probability value of each pixel.   
 
-### **Figure 1**    
-<img src="https://user-images.githubusercontent.com/104747868/235346780-85e285b2-43d6-47f3-b19a-b6a2b4034d83.png" width="600" height="300">    
+### **Figure 1**
+![0622201529226761](https://github.com/WestChaeVI/CNN-models/assets/104747868/5b71fb6c-a57d-4209-88bb-f8c5cd975ad9)       
 
++ The difference between the probability distribution of positive and negative classification pixels
+  > The left figure of Figure 1 is a visualization of the distribution (0-1) after obtaining all the inference probabilities of the K-varsir data test set from U-net.    
+  > Looking at the two distributions, it can be seen that the distribution of probability values of the misclassified pixels has many uncertain (close to 0.5).   
 + It is a schematic of the endoscopic (Kvasir-SEG) dataset image to distinguish the segmentation target **Gastrointestinal polyp** from the background and the learning results of ```U-net```, which are widely used in the medical field.   
 + The problem of misclassification commonly observed in the deep learning algorithm was defined in two patterns.   
 **① Pixels that are misclassified due to lack of information (size, texture, etc.) to be segmented**   
@@ -44,7 +48,7 @@ Figure 2 is an example of a structure in which two improvements a and b are targ
 
 [CBAM](https://arxiv.org/pdf/1807.06521.pdf) was added as the attention module (Figure 2a). The CBAM module's **spatial attention map** plays a role in giving the final output map a weight of **0-1** according to the pixel importance while passing through the ```sigmoid``` function, which is expected to strengthen object information in the image.   
 
-In order to extract the background class and the class to be detected with different weight sets, a ```1x1 conv``` layer was added to obtain each feature map.   
+In order to extract the background class and the class to be segmented with different weight sets, a ```1x1 conv``` layer was added to obtain each feature map.   
 
 Additionally, the output value was adjusted with the activation function ```f''``` to derive an output value close to both extremes. The functions used at this time were compared and experimented with ```none```, ```tanh```, ```ReLU```, ```LeakyReLU```, ```SeLU```, and ```GeLU```, which can output up to negative numbers.    
 
@@ -56,7 +60,7 @@ Additionally, the output value was adjusted with the activation function ```f''`
 |Dataset|Train set|Valid set|Test set|
 |:---:|:---:|:---:|:---:|
 |[K-Vasir](https://paperswithcode.com/dataset/kvasir)|600|200|200|
-|[ISIC](https://challenge.isic-archive.com/data/)|2000|150|150|      
+|[ISIC](https://challenge.isic-archive.com/data/#2017)|2000|150|150|      
   
 ## Evaluation   
 
@@ -70,7 +74,7 @@ $$Dice\ CELoss = (1 - Dice\ Score) + Cross\ entropy$$
 
 A. Model of basic structure (top structure in Figure 2)    
 B. Model of basic structure + b (only the output layer structure in Figure 2 changes)    
-C. Model of basic structure + a + b (bottom structure in Figure 2)    
+**C. Model of basic structure + a + b (bottom structure in Figure 2)**    
 D. Modifying module a in the lower structure of Figure 2 (sig & tanh)     
 
 ### Figure 3   
@@ -83,7 +87,7 @@ D. Modifying module a in the lower structure of Figure 2 (sig & tanh)
 <tr>
 <th style="text-align:center">Data Set</th>
 <th colspan='5'>K-Vasir</th>
-<th colspan='5'>Ottawa</th>
+<th colspan='5'>ISIC(2017)</th>
 </tr>
 </thead>
 <tbody>
@@ -107,11 +111,11 @@ D. Modifying module a in the lower structure of Figure 2 (sig & tanh)
 <td style="text-align:center">0.891</td>
 <td style="text-align:center">0.912</td>
 <td style="text-align:center">0.886</td>
-<td style="text-align:center">0.919</td>
-<td style="text-align:center">0.916</td>
-<td style="text-align:center">0.922</td>
-<td style="text-align:center">0.938</td>
-<td style="text-align:center">0.924</td>
+<td style="text-align:center">0.852</td>
+<td style="text-align:center">0.839</td>
+<td style="text-align:center">0.849</td>
+<td style="text-align:center">0.860</td>
+<td style="text-align:center">0.850</td>
 </tr>
 <tr>
 <td style="text-align:center">B</td>
@@ -120,11 +124,11 @@ D. Modifying module a in the lower structure of Figure 2 (sig & tanh)
 <td style="text-align:center">0.896<br>SeLu</td>
 <td style="text-align:center">0.911<br>SeLu</td>
 <td style="text-align:center">0.891</td>
-<td style="text-align:center"><strong>0.922<br>Leaky ReLu</strong></td>
-<td style="text-align:center">0.919<br>None</td>
-<td style="text-align:center"><strong>0.923<br>SeLu</strong></td>
-<td style="text-align:center">0.942<br>Leaky ReLu</td>
-<td style="text-align:center">0.927</td>
+<td style="text-align:center">0.854<br>SeLu</td>
+<td style="text-align:center">0.842<br>Leaky ReLU</td>
+<td style="text-align:center">0.850<br>Tanh</td>
+<td style="text-align:center"><strong>0.862<br>Tanh</strong></td>
+<td style="text-align:center">0.852</td>
 </tr>
 <tr>
 <td style="text-align:center">C</td>
@@ -133,11 +137,11 @@ D. Modifying module a in the lower structure of Figure 2 (sig & tanh)
 <td style="text-align:center"><strong>0.898<br>ReLu</strong></td>
 <td style="text-align:center"><strong>0.919<br>Leaky ReLu</strong></td>
 <td style="text-align:center"><strong>0.897</strong></td>
-<td style="text-align:center">0.921<br>ReLu</td>
-<td style="text-align:center"><strong>0.926<br>SeLu</strong></td>
-<td style="text-align:center"><strong>0.923<br>SeLu, GeLu</strong></td>
-<td style="text-align:center"><strong>0.944<br>SeLu</strong></td>
-<td style="text-align:center"><strong>0.929<br></strong></td>
+<td style="text-align:center"><strong>0.855<br>None</strong></td>
+<td style="text-align:center"><strong>0.853<br>SeLu</strong></td>
+<td style="text-align:center"><strong>0.853<br>GeLu</strong></td>
+<td style="text-align:center"><strong>0.862<br>SeLu</strong></td>
+<td style="text-align:center"><strong>0.856<br></strong></td>
 </tr>
 <tr>
 <td style="text-align:center">D</td>
@@ -146,11 +150,11 @@ D. Modifying module a in the lower structure of Figure 2 (sig & tanh)
 <td style="text-align:center">0.896<br>Leaky ReLu</td>
 <td style="text-align:center">0.915<br>SeLu</td>
 <td style="text-align:center">0.891</td>
-<td style="text-align:center">0.921<br>ReLu</td>
-<td style="text-align:center">0.915<br>SeLu</td>
-<td style="text-align:center">0.917<br>ReLu</td>
-<td style="text-align:center">0.941<br>GeLu</td>
-<td style="text-align:center">0.924</td>
+<td style="text-align:center">0.848<br>GeLu</td>
+<td style="text-align:center">0.848<br>None</td>
+<td style="text-align:center">0.848<br>SeLU, Leaky</td>
+<td style="text-align:center">0.858<br>GeLu</td>
+<td style="text-align:center">0.850</td>
 <td></td>
 </tr>
 </tbody>
