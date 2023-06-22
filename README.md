@@ -3,7 +3,7 @@
 
 [Publication](링크)    
 Inho Jeong<sup>o</sup>, $Minyoung Hwang, $Chaejun Seo, Seunghyeok Hong<sup>*</sup>. (2023).   
-Attention-based Fine-tuning for Reducing Misclassification in Semantic Image Segmentation 한국정보과학회 학술발표논문집, pp aa~aa    
+Attention-based Fine-tuning for Reducing Misclassification in Semantic Image Segmentation 한국정보과학회 학술발표논문집, pp 1862~1864    
 
 
 ------------------------------------------------------------
