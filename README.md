@@ -78,7 +78,7 @@ B. Model of basic structure + b (only the output layer structure in Figure 2 cha
 D. Modifying module a in the lower structure of Figure 2 (sig & tanh)     
 
 ### Figure 3   
-<p align="center"><img src="https://user-images.githubusercontent.com/104747868/235351631-004a47bb-9cc5-4e05-b1f1-573143aa6a9b.png" width="600" height="500"><\   
+<p align="center"><img src="https://user-images.githubusercontent.com/104747868/235351631-004a47bb-9cc5-4e05-b1f1-573143aa6a9b.png" width="600" height="500">   
  
 ### Fine tuning results by model   
 
